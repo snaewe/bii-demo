@@ -1,12 +1,12 @@
 /**
- * Print a simple "Hello world!"
- *
  * @file main.cpp
  * @section LICENSE
 
     This code is under MIT License, http://opensource.org/licenses/MIT
  */
 
+#define CATCH_CONFIG_RUNNER
+#include "catch.hpp"
 #include <iostream>
 #include <string>
 
@@ -30,7 +30,17 @@ std::string binstr(const char* s)
 }
 #endif
 
-int main() {
-  std::cout << binstr("\x03\x00\x02").size() << std::endl;
-  std::cout << binstr("").size() << std::endl;
+TEST_CASE()
+{
+  REQUIRE(binstr("\x03\x00\x02").size() == 3);
+  REQUIRE(binstr("").size() == 0);
+  REQUIRE(binstr("\x03\x00\x02")[0] == '\x03');
+  REQUIRE(binstr("\x03\x00\x02")[1] == '\x00');
+}
+
+int main(int argc, char* argv[])
+{
+  int result = Catch::Session().run( argc, argv );
+
+  return result;
 }
